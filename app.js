@@ -4,6 +4,15 @@ var express = require("express");
 // Создание объекта  express
 var app = express();
 
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// подключение модуля student.js
+var student = require('./routes/student');
+app.use('/', student);
+
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
 
