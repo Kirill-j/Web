@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 60%; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 6px 12px; }
+        th { background: #eee; }
+    </style>
+</head>
+<body>
+
+    <h1>{{title}}</h1>
+
+    <h2>Условие</h2>
+    {{#if isLogin}}
+        <p style="color:green;">Добро пожаловать, пользователь!</p>
+    {{else}}
+        <p style="color:red;">Пожалуйста, зарегистрируйтесь!</p>
+    {{/if}}
+
+    <h2>Переменные и цикл</h2>
+    <h3>{{title_table}}</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Логин</th>
+                <th>Баллы</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if users.length}}
+                {{#each users}}
+                    <tr>
+                        <td>{{inc @index}}</td>
+                        <td>{{name}}</td>
+                        <td>{{surname}}</td>
+                        <td>{{login}}</td>
+                        <td>{{scores}}</td>
+                    </tr>
+                {{/each}}
+            {{else}}
+                <tr><td colspan="5">Нет пользователей</td></tr>
+            {{/if}}
+        </tbody>
+    </table>
+
+    <h2>Конструкция Switch Case</h2>
+
+    {{#if (eq subs 0)}}
+        <p>У тебя нет подписчиков</p>
+    {{else if (eq subs 1)}}
+        <p>У тебя один подписчик</p>
+    {{else}}
+        <p>У тебя {{subs}} подписчиков</p>
+    {{/if}}
+</body>
+</html>

@@ -23,6 +23,21 @@ app.use(express.static("public"));
 // Подключение шаблонизатора Ejs
 app.set("view engine", "ejs");
 
+// Подключение шаблонизатора Hbs
+app.set("view engine", "hbs");
+
+const hbs = require("hbs");
+
+// Helper для увеличения сравнения чисел
+hbs.registerHelper("eq", function(a, b) {
+    return a === b;
+});
+
+// Helper для увеличения числа на 1
+hbs.registerHelper("inc", function(value) {
+    return parseInt(value) + 1;
+});
+
 // Подключение шаблонизатора Pug.
 app.set("view engine", "pug");
 
@@ -55,6 +70,25 @@ app.get("/information", function(request, response)  {
 app.get("/ejsPractice", function(request, response)  {   
   response.render("ejsPractice.ejs", {
     title: "Работа с шаблонизатором Ejs"
+  }); 
+});
+
+// Определение обработчика для маршрута "/hbsPractice"
+app.get("/hbsPractice", function(request, response)  {   
+  response.render("hbsPractice.hbs", {
+    title: "Работа с шаблонизатором Handlebars",
+    title_table: "Таблица рейтинга пользователей",
+    isLogin: true,
+        subs: 10,
+        users: [
+            { name: "Petr", surname: "Ivanov", login: "petanov", scores: 1271 },
+            { name: "Ivan", surname: "Petrov", login: "ivatrov", scores: 1254 },
+            { name: "Anna", surname: "Sidorova", login: "ansid", scores: 1389 }
+        ],
+        groups: [
+            { groupName: "Frontend", members: ["Petr", "Anna"] },
+            { groupName: "Backend", members: ["Ivan"] }
+        ]
   }); 
 });
 
