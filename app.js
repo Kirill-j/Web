@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var student = require('./routes/student');
 app.use('/', student);
 
+// подключение модуля teacher.js
+var teacher = require('./routes/teacher');
+app.use('/', teacher);
+
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
 
