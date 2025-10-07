@@ -1,6 +1,9 @@
 extends ./head
 block content
-    h1 Условия
+
+    h1 #{title}
+
+    h2 Условия
     //- Переменная
     - const isLogin = true;
     //- Использование переменной
@@ -9,7 +12,7 @@ block content
     else 
         p(style="color: red") Зарегистрируйтесь!
 
-    h1 Циклы и переменные
+    h2 Циклы и переменные
     //- Переменная
     -
         const title_table = "Таблица рейтинга пользователей"
@@ -41,9 +44,9 @@ block content
                 tr 
                     td(colspan='5') Нет пользователей
 
-    h1 Конструкция Switch Case
+    h2 Конструкция Switch Case
     - let subs = 10
-    h2 Количество подписчиков
+    h3 Количество подписчиков
     case subs
         when 0
             p У тебя нет подписчиков
