@@ -47,3 +47,10 @@ app.get("/information", function(request, response)  {
  
   response.render("test", {description: "На этой странице будет описание проекта"});
 });
+
+// Определение обработчика для маршрута "/pugPractice"
+app.get("/pugPractice", function(request, response)  {   
+    response.render("pugPractice", {
+        title: "Работа с шаблонизатором Pug"
+    }); 
+});

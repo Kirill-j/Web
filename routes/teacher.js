@@ -31,7 +31,10 @@ var teachers = [
 module.exports = router;
 
 router.get("/listTeachers", function(req, res)  {
-    res.render("listTeachers", { teachers: teachers});
+    res.render("listTeachers", {
+        teachers: teachers,
+        title: "Список преподавателей"
+    });
 });
     
 router.get("/teacher/:id", function(req, res)  {

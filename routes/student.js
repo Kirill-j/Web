@@ -34,7 +34,10 @@ var students = [
 module.exports = router;
 
 router.get("/listStudents", function(req, res)  {
-    res.render("listStudents", { students: students});
+    res.render("listStudents", {
+        students: students,
+        title: "Список студентов"
+    });
 });
     
 router.get("/student/:id", function(req, res)  {

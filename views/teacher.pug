@@ -1,13 +1,10 @@
-html
-    head
-        meta(charset='utf-8')
-        title Преподаватель
-    body
-        if student != null
-            form(action="/teacher/" + teacher.id, method="POST")
-                input(name="firstname" value=teacher.firstname)
-                input(name="secondname" value=teacher.secondname)
-                input(name="lastname" value=teacher.lastname)
-                input(name="course" value=teacher.course)
-        else
-            div Студент с таким id не найден
+extends ./head
+block content
+    if student != null
+        form(action="/teacher/" + teacher.id, method="POST")
+            input(name="firstname" value=teacher.firstname)
+            input(name="secondname" value=teacher.secondname)
+            input(name="lastname" value=teacher.lastname)
+            input(name="course" value=teacher.course)
+    else
+        div Студент с таким id не найден
