@@ -50,7 +50,7 @@ app.get("/information", function(request, response)  {
 
 // Определение обработчика для маршрута "/pugPractice"
 app.get("/pugPractice", function(request, response)  {   
-    response.render("pugPractice", {
-        title: "Работа с шаблонизатором Pug"
-    }); 
+  response.render("pugPractice", {
+    title: "Работа с шаблонизатором Pug"
+  }); 
 });
