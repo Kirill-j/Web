@@ -1,0 +1,15 @@
+{
+  "name": "firstproject",
+  "version": "1.0.0",
+  "description": "First project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lapshakov Kirill",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "pug": "^3.0.3"
+  }
+}
