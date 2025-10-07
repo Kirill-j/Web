@@ -20,6 +20,9 @@ app.use('/', teacher);
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
 
+// Подключение шаблонизатора Ejs
+app.set("view engine", "ejs");
+
 // Подключение шаблонизатора Pug.
 app.set("view engine", "pug");
 
@@ -46,6 +49,13 @@ app.get("/test", function(request, response)  {
 app.get("/information", function(request, response)  {
  
   response.render("test", {description: "На этой странице будет описание проекта"});
+});
+
+// Определение обработчика для маршрута "/ejsPractice"
+app.get("/ejsPractice", function(request, response)  {   
+  response.render("ejsPractice.ejs", {
+    title: "Работа с шаблонизатором Ejs"
+  }); 
 });
 
 // Определение обработчика для маршрута "/pugPractice"

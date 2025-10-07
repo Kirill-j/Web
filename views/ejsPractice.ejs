@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 60%; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 6px 12px; }
+        th { background: #eee; }
+    </style>
+</head>
+<body>
+    <h1><%= title %></h1>
+
+    <h2>Условия</h2>
+    <% const isLogin = true; %>
+    <% if (isLogin) { %>
+        <p style="color: green;">Добро пожаловать, пользователь!</p>
+    <% } else { %>
+        <p style="color: red;">Пожалуйста, зарегистрируйтесь!</p>
+    <% } %>
+
+    <h2>Переменные и цикл</h2>
+
+    <% const title_table = "Таблица рейтинга пользователей"%>
+    <% 
+        const users = [
+            { name: "Petr", surname: "Ivanov", login: "petanov", scores: 1271 },
+            { name: "Ivan", surname: "Petrov", login: "ivatrov", scores: 1254 },
+            { name: "Anna", surname: "Sidorova", login: "ansid", scores: 1389 }
+        ];
+    %>
+
+    <h3><%= title_table%></h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Логин</th>
+                <th>Баллы</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (users.length > 0) { %>
+                <% users.forEach((user, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.surname %></td>
+                        <td><%= user.login %></td>
+                        <td><%= user.scores %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr><td colspan="5">Нет пользователей</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <h2>Конструкция Switch Case</h2>
+
+    <%
+        let subs = 10;
+        switch (subs) {
+            case 0:
+    %>
+                <p>У тебя нет подписчиков</p>
+    <%
+                break;
+            case 1:
+    %>
+                <p>У тебя один подписчик</p>
+    <%
+                break;
+            default:
+    %>
+                <p>У тебя <%= subs %> подписчиков</p>
+    <%
+        }
+    %>
+</body>
+</html>
