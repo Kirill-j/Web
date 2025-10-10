@@ -1,0 +1,139 @@
+===================================================================================================
+===================================================================================================
+
+--------------Добавление единичных записей-------------------------------------------------------
+
+INSERT INTO discipline (name) VALUES ('Базы данных');
+INSERT INTO discipline (name) VALUES ('Программирование');
+INSERT INTO discipline (name) VALUES ('Математика');
+
+INSERT INTO teacher (name) VALUES ('Иванов Иван Иванович');
+INSERT INTO teacher (name) VALUES ('Сидоров Сергей Сергеевич');
+INSERT INTO teacher (name) VALUES ('Кузнецова Анна Алексеевна');
+
+INSERT INTO discipline_teacher (discipline_id, teacher_id) VALUES (1, 1); -- Иванов → БД
+INSERT INTO discipline_teacher (discipline_id, teacher_id) VALUES (2, 2); -- Сидоров → Программирование
+INSERT INTO discipline_teacher (discipline_id, teacher_id) VALUES (3, 3); -- Кузнецова → Математика
+
+INSERT INTO student_group (name) VALUES ('ИТ-101');
+INSERT INTO student_group (name) VALUES ('ИТ-102');
+
+INSERT INTO student (name, student_group_id) VALUES ('Петров Пётр Петрович', 1);
+INSERT INTO student (name, student_group_id) VALUES ('Иванова Анна Сергеевна', 1);
+INSERT INTO student (name, student_group_id) VALUES ('Смирнов Алексей Николаевич', 2);
+
+--------------Добавление нескольких записей-------------------------------------------------------
+
+INSERT INTO schedule (student_group_id, week_day, pair_number, discipline_teacher_id)
+VALUES 
+(1, 1, 1, 1),  -- Понедельник, 1 пара, БД
+(2, 3, 2, 2);  -- Среда, 2 пара, Программирование
+
+
+INSERT INTO journal (schedule_id, date_pair)
+VALUES 
+(1, '2025-10-08'),
+(2, '2025-10-09');
+
+
+INSERT INTO journal_student (journal_id, student_id, attendance)
+VALUES 
+(1, 1, 'присутствовал'),
+(1, 2, 'отсутствовал'),
+(2, 3, 'присутствовал');
+
+===================================================================================================
+===================================================================================================
+
+SELECT — какие столбцы
+
+FROM — из какой таблицы
+
+AS — псевдоним
+
+JOIN — объединение нескольких таблиц по общим полям
+
+ORDER BY — сортировка
+
+WHERE — фильтрация 
+
+--------------1. Данные студентов с указанием студенческой группы.---------------------------------
+ 
+SELECT s.id,
+       s.name AS student_name,
+       g.name AS group_name
+FROM student s
+JOIN student_group g ON s.student_group_id = g.id
+ORDER BY g.name, s.name;
+
+--------------2. Список дисциплин, которые ведёт преподаватель.------------------------------------
+
+SELECT d.name AS discipline_name,
+       t.name AS teacher_name
+FROM discipline_teacher dt
+JOIN discipline d ON dt.discipline_id = d.id
+JOIN teacher t ON dt.teacher_id = t.id
+ORDER BY t.name;
+
+--------------3. Расписание занятий для студенческой группы.----------------------------------------
+
+SELECT sch.id,
+       sg.name AS group_name,
+       d.name AS discipline_name,
+       t.name AS teacher_name,
+       sch.week_day,
+       sch.pair_number
+FROM schedule sch
+JOIN student_group sg ON sch.student_group_id = sg.id
+JOIN discipline_teacher dt ON sch.discipline_teacher_id = dt.id
+JOIN discipline d ON dt.discipline_id = d.id
+JOIN teacher t ON dt.teacher_id = t.id
+WHERE sch.student_group_id = 1;
+
+--------------4. Данные о посещаемости студента.---------------------------------------------------
+
+SELECT st.name AS student_name,
+       d.name AS discipline_name,
+       j.date_pair,
+       js.attendance
+FROM journal_student js
+JOIN journal j ON js.journal_id = j.id
+JOIN schedule sch ON j.schedule_id = sch.id
+JOIN discipline_teacher dt ON sch.discipline_teacher_id = dt.id
+JOIN discipline d ON dt.discipline_id = d.id
+JOIN student st ON js.student_id = st.id
+WHERE st.id = 1;
+
+--------------5. Сведения о присутствии/отсутствии на занятиях на указанную дату.------------------
+
+SELECT st.name AS student_name,
+       d.name AS discipline_name,
+       js.attendance
+FROM journal_student js
+JOIN journal j ON js.journal_id = j.id
+JOIN schedule sch ON j.schedule_id = sch.id
+JOIN discipline_teacher dt ON sch.discipline_teacher_id = dt.id
+JOIN discipline d ON dt.discipline_id = d.id
+JOIN student st ON js.student_id = st.id
+WHERE j.date_pair = '2025-10-08';
+
+===================================================================================================
+===================================================================================================
+
+--------------Обновление---------------------------------------------------------------------------
+
+UPDATE student
+SET name = 'Петров Павел Павлович'
+WHERE id = 1;
+
+UPDATE discipline_teacher
+SET teacher_id = 2
+WHERE discipline_id = 1;
+
+--------------Удаление-----------------------------------------------------------------------------
+
+DELETE FROM student WHERE id = 3;
+
+DELETE FROM journal WHERE id = 2;
+
+DELETE FROM discipline WHERE id = 3;
