@@ -2,49 +2,35 @@ var express = require("express");
 // Вызываем функцию Router(), чтобы создать новый объект маршрутизации. Основной уже располагается в app.js
 var router = express.Router();
 
-// Глобальный массив преподавателей
-var teachers = [
-    { 
-        id: 1,
-        firstname: "Oleg",
-        secondname: "Dmitrievich",
-        lastname: "Pupkov",
-        course: "Artifical Intelegence"
-    },
-    {
-        id: 2,
-        firstname: "Igor",
-        secondname: "Vladimirovich",
-        lastname: "Glupkov",
-        course: "Modern technologies"
-    },
-    {
-        id: 3,
-        firstname: "Yuriy",
-        secondname: "Ivanovich",
-        lastname: "Hubabuba ",
-        course: "Operating systems"
-    }
-];
+var db = require("./database.js");
 
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router;
 
 router.get("/listTeachers", function(req, res)  {
-    res.render("listTeachers", {
-        teachers: teachers,
-        title: "Список преподавателей"
+    db.all(`SELECT * FROM teacher`, (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.render("listTeachers", {
+            teachers: rows,
+            title: "Список преподавателей"
+        });
     });
 });
-    
+
 router.get("/teacher/:id", function(req, res)  {
-    // получение id преподавателя из параметров запроса
+   // получение id студента из параметров запроса
     var teacher_id = req.params.id;
 
-    // Поиск преподавателя в массиве.
-    var teacher = teachers.find(item => item.id == teacher_id);
-
-    res.render("teacher", {teacher: teacher});
+    db.get(`SELECT * FROM teacher WHERE id=?`, [teacher_id], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.render("teacher", {
+            teacher: rows
+        });
+    });
 });
 
 router.post("/teacher/:id", function(req, res)  {

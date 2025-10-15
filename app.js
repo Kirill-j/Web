@@ -17,6 +17,9 @@ app.use('/', student);
 var teacher = require('./routes/teacher');
 app.use('/', teacher);
 
+var course = require('./routes/course');
+app.use('/', course);
+
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
 
