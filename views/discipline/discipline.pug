@@ -1,0 +1,19 @@
+extends ../head
+
+block content
+    if discipline
+        h2= title
+        form(action="/updateDiscipline/" + discipline.id, method="POST")
+            input(
+                name="name"
+                type="text"
+                placeholder="Название дисциплины"
+                value=discipline.name
+                required
+            )
+            input(type="submit" value="Обновить")
+
+        form(action="/deleteDiscipline/" + discipline.id, method="POST")
+            input(type="submit" value="Удалить")
+    else
+        div Дисциплина с таким ID не найдена.

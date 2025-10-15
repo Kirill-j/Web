@@ -1,11 +1,12 @@
 extends ../head
 
 block content
-    form(action="/addTeacher" method="POST")
+    h2= title
+    form(action="/addDiscipline", method="POST")
         input(
             name="name"
             type="text"
-            placeholder="ФИО преподавателя"
+            placeholder="Название дисциплины"
             required
         )
         input(type="submit" value="Добавить")

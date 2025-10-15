@@ -17,8 +17,14 @@ app.use('/', student);
 var teacher = require('./routes/teacher');
 app.use('/', teacher);
 
-var course = require('./routes/course');
-app.use('/', course);
+var discipline = require('./routes/discipline');
+app.use('/', discipline);
+
+var studentGroup = require('./routes/studentGroup');
+app.use('/', studentGroup);
+
+var schedule = require('./routes/schedule');
+app.use('/', schedule);
 
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
