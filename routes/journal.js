@@ -191,3 +191,24 @@ router.route("/attendanceJournal")
                     });
             });
     });
+
+router.post("/deleteAttendance", (req, res) => {
+    const { student_group_id, date_pair } = req.body;
+
+    db.run(
+        `DELETE FROM journal 
+         WHERE schedule_id IN (
+             SELECT id FROM schedule WHERE student_group_id = ?
+         )
+         AND date_pair = ?`,
+        [student_group_id, date_pair],
+        function (err) {
+            if (err) {
+                console.error("Ошибка при удалении журнала:", err.message);
+                res.status(500).send("Ошибка базы данных");
+                return;
+            }
+            res.redirect("/attendanceJournal");
+        }
+    );
+});

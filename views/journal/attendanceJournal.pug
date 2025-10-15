@@ -10,3 +10,8 @@ block content
                 option(value=el.id) #{el.name}
         input(name="date_pair" id="date_pair" type="date" placeholder="Дата занятий" required)
         div(id="attendance_table_id")
+
+    form(action="/deleteAttendance", method="POST")
+        input(type="hidden", name="student_group_id", id="hidden_group_id")
+        input(type="hidden", name="date_pair", id="hidden_date_pair")
+        input(type="submit", value="Удалить")

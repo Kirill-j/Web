@@ -120,6 +120,11 @@ $(document).ready(() => {
         getDataForAddingAttendance();
     });
 
+    $("#student_group_id, #date_pair").on("change", function() {
+        $("#hidden_group_id").val($("#student_group_id").val());
+        $("#hidden_date_pair").val($("#date_pair").val());
+});
+
     // при загрузке страницы подгружаем таблицу
     getDataForAddingAttendance();
 });
