@@ -26,6 +26,9 @@ app.use('/', studentGroup);
 var schedule = require('./routes/schedule');
 app.use('/', schedule);
 
+var journal = require('./routes/journal');
+app.use('/', journal);
+
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
 
