@@ -1,0 +1,8 @@
+extends ./head
+block content
+    h2= title
+    ul
+        each el in courses
+            li
+                a(href="/course/" + el.id)= el.name
+    include ./information

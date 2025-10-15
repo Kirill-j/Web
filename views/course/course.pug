@@ -1,0 +1,10 @@
+extends ./head
+block content
+    if course != null
+        form(action="/course/" + course.id, method="POST")
+            label Название дисциплины:
+            input(name="name" value=course.name)
+            br
+            input(type="submit" value="Сохранить")
+    else
+        div Курс с таким id не найден
