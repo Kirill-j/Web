@@ -2,11 +2,15 @@ extends ../head
 
 block content
     h2= title
-    form(action="/addDiscipline", method="POST")
-        input(
-            name="name"
-            type="text"
-            placeholder="Название дисциплины"
-            required
-        )
-        input(type="submit" value="Добавить")
+    div(class="col-md-5")
+        form(action="/addDiscipline", method="POST")
+            div(class="form-group mb-3")
+                input(
+                    name="name"
+                    type="text"
+                    placeholder="Название дисциплины"
+                    required
+                    class="form-control"
+                )
+            div(class="form-group mb-3")
+                input(type="submit" value="Добавить" class="btn btn-success")

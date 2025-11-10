@@ -2,8 +2,8 @@ extends ../head
 
 block content
     h2= title
-    a(href="/addDiscipline") Добавить дисциплину
-    ul
+    a(href="/addDiscipline" class="btn btn-success") Добавить дисциплину
+    ul(class="list-group")
         each el in disciplines
-            li
+            li(class="list-group-item")
                 a(href="/discipline/" + el.id)= el.name
