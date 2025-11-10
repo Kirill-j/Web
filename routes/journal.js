@@ -3,6 +3,8 @@ var router = express.Router();
 
 var db = require("./database.js");
 
+var isAuth = require('./isAuth');
+
 var moment = require('moment');
 
 var TransactionDatabase = require("sqlite3-transactions").TransactionDatabase;
@@ -11,7 +13,7 @@ var dbTransaction = new TransactionDatabase(db);
 module.exports = router;
 
 router.route("/addAttendanceMark")
-    .get((req, res) => {
+    .get(isAuth.isAuthenticated, (req, res) => {
         db.all(`SELECT * FROM student_group`, (err, rows) => {
             if (err) {
                 throw err;
@@ -139,7 +141,7 @@ router.route("/addAttendanceMark")
 });
 
 router.route("/attendanceJournal")
-    .get((req, res) => {
+    .get(isAuth.isAuthenticated, (req, res) => {
         db.all(`SELECT * FROM student_group`, (err, rows) => {
             if (err) {
                 throw err;
@@ -192,7 +194,7 @@ router.route("/attendanceJournal")
             });
     });
 
-router.post("/deleteAttendance", (req, res) => {
+router.post("/deleteAttendance", isAuth.isAuthenticated, (req, res) => {
     const { student_group_id, date_pair } = req.body;
 
     db.run(

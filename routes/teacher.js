@@ -2,9 +2,11 @@ var express = require("express");
 var router = express.Router();
 var db = require("./database.js");
 
+var isAuth = require('./isAuth');
+
 module.exports = router;
 
-router.get("/listTeachers", (req, res) => {
+router.get("/listTeachers", isAuth.isAuthenticated, (req, res) => {
     db.all(`SELECT * FROM teacher`, (err, rows) => {
         if (err) {
             console.error("Ошибка при получении преподавателей:", err.message);
@@ -18,7 +20,7 @@ router.get("/listTeachers", (req, res) => {
     });
 });
 
-router.get("/teacher/:id", (req, res) => {
+router.get("/teacher/:id", isAuth.isAuthenticated, (req, res) => {
     const teacher_id = req.params.id;
     db.get(`SELECT * FROM teacher WHERE id=?`, [teacher_id], (err, row) => {
         if (err) {
@@ -34,7 +36,7 @@ router.get("/teacher/:id", (req, res) => {
 });
 
 router.route("/addTeacher")
-    .get((req, res) => {
+    .get(isAuth.isAuthenticated, (req, res) => {
         res.render("teacher/addTeacher", {
             title: "Добавление преподавателя"
         });
@@ -55,7 +57,7 @@ router.route("/addTeacher")
         );
     });
 
-router.post("/updateTeacher/:id", (req, res) => {
+router.post("/updateTeacher/:id", isAuth.isAuthenticated, (req, res) => {
     const teacher_id = req.params.id;
     const { name } = req.body;
     db.run(
@@ -72,7 +74,7 @@ router.post("/updateTeacher/:id", (req, res) => {
     );
 });
 
-router.post("/deleteTeacher/:id", (req, res) => {
+router.post("/deleteTeacher/:id", isAuth.isAuthenticated, (req, res) => {
     const teacher_id = req.params.id;
     db.run(`DELETE FROM teacher WHERE id=?`, [teacher_id], (err) => {
         if (err) {
@@ -84,7 +86,7 @@ router.post("/deleteTeacher/:id", (req, res) => {
     });
 });
 
-router.get("/listDisciplineTeacher", (req, res) => {
+router.get("/listDisciplineTeacher", isAuth.isAuthenticated, (req, res) => {
     db.all(
         `SELECT discipline.id as discipline_id, discipline.name as discipline_name, teacher.id as teacher_id, teacher.name as teacher_name 
             FROM discipline_teacher
@@ -102,7 +104,7 @@ router.get("/listDisciplineTeacher", (req, res) => {
 });
 
 router.route("/addDisciplineTeacher")
-    .get((req, res) => {
+    .get(isAuth.isAuthenticated, (req, res) => {
         db.all(`SELECT * FROM teacher`, (err, rows) => {
             if (err) {
                 throw err;
@@ -132,7 +134,7 @@ router.route("/addDisciplineTeacher")
         );
     });
 
-    router.post("/deleteDisciplineTeacher/disciplineId=:discipline_id/teacherId=:teacher_id", (req, res) => {
+    router.post("/deleteDisciplineTeacher/disciplineId=:discipline_id/teacherId=:teacher_id", isAuth.isAuthenticated, (req, res) => {
     db.run(`DELETE FROM discipline_teacher WHERE discipline_id=? AND teacher_id=? `, [req.params.discipline_id, req.params.teacher_id],
         (err) => {
             if (err) {

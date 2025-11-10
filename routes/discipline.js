@@ -5,11 +5,12 @@ var uuid = require('uuid');
 var fs = require('fs');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
+var isAuth = require('./isAuth');
 
 // Экспортируем маршрутизатор
 module.exports = router;
 
-router.get("/listDisciplines", (req, res) => {
+router.get("/listDisciplines", isAuth.isAuthenticated, (req, res) => {
     db.all(`SELECT * FROM discipline`, (err, rows) => {
         if (err) {
             console.error("Ошибка при получении дисциплин:", err.message);
@@ -23,7 +24,7 @@ router.get("/listDisciplines", (req, res) => {
     });
 });
 
-router.get("/discipline/:id", (req, res) => {
+router.get("/discipline/:id", isAuth.isAuthenticated, (req, res) => {
     const discipline_id = req.params.id;
     db.get(`SELECT * FROM discipline WHERE id=?`, [discipline_id], (err, row) => {
         if (err) {
@@ -39,7 +40,7 @@ router.get("/discipline/:id", (req, res) => {
 });
 
 router.route("/addDiscipline")
-    .get((req, res) => {
+    .get(isAuth.isAuthenticated, (req, res) => {
         res.render("discipline/addDiscipline", {
             title: "Добавление дисциплины"
         });
@@ -60,7 +61,7 @@ router.route("/addDiscipline")
         );
     });
 
-router.post("/updateDiscipline/:id", (req, res) => {
+router.post("/updateDiscipline/:id", isAuth.isAuthenticated, (req, res) => {
     const discipline_id = req.params.id;
     const { name, description } = req.body;
     db.run(
@@ -77,7 +78,7 @@ router.post("/updateDiscipline/:id", (req, res) => {
     );
 });
 
-router.post("/deleteDiscipline/:id", (req, res) => {
+router.post("/deleteDiscipline/:id", isAuth.isAuthenticated, (req, res) => {
     const discipline_id = req.params.id;
     db.run(`DELETE FROM discipline WHERE id=?`, [discipline_id], (err) => {
         if (err) {

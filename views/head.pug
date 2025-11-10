@@ -5,14 +5,19 @@ html
         title #{title}
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css", integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN", crossorigin="anonymous")
     body
-        nav(class="navbar navbar-light px-4" style="background-color: #A9A9A9;")
-            a(href="/listStudentGroups" class="navbar-brand") Студенческие группы
-            a(href="/listStudents" class="navbar-brand") Студенты
-            a(href="/listTeachers" class="navbar-brand") Преподаватели
-            a(href="/listDisciplines" class="navbar-brand") Учебные дисциплины
-            a(href="/listDisciplineTeacher" class="navbar-brand") Учебные дисциплины преподавателей
-            a(href="/schedule" class="navbar-brand") Расписание занятий
-            a(href="/attendanceJournal" class="navbar-brand") Журнал посещаемости
+        nav(class="navbar navbar-light px-4" style="background-color: #1C8EFF;")
+            a(href="/listStudentGroups" class="navbar-brand" style="color: #ffffffff;") Студенческие группы
+            a(href="/listStudents" class="navbar-brand" style="color: #ffffffff;") Студенты
+            a(href="/listTeachers" class="navbar-brand" style="color: #ffffffff;") Преподаватели
+            a(href="/listDisciplines" class="navbar-brand" style="color: #ffffffff;") Учебные дисциплины
+            a(href="/listDisciplineTeacher" class="navbar-brand" style="color: #ffffffff;") Учебные дисциплины преподавателей
+            a(href="/schedule" class="navbar-brand" style="color: #ffffffff;") Расписание занятий
+            a(href="/attendanceJournal" class="navbar-brand" style="color: #ffffffff;") Журнал посещаемости
+            if username
+                div #{username}
+                a(href="/logout" class="navbar-brand" style="color: #ffffffff;") Выйти
+            else
+                a(href="/login" class="navbar-brand" style="color: #ffffffff;") Войти
     
     block styles
         link(rel="stylesheet" href="/css/style.css")

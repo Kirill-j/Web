@@ -6,8 +6,24 @@ var app = express();
 
 var bodyParser = require('body-parser');
 
+var passport = require('passport');
+var expressSession = require('express-session');
+var flash = require('connect-flash');
+var pp = require('./passport');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(expressSession({secret: "key"}));
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.username = req.user ? req.user.username : "";
+    next();
+});
 
 // подключение модуля student.js
 var student = require('./routes/student');
@@ -28,6 +44,10 @@ app.use('/', schedule);
 
 var journal = require('./routes/journal');
 app.use('/', journal);
+
+var authentication = require('./routes/authentication');
+app.use('/', authentication);
+ 
 
 // Указание, что каталог public используется для хранения статических файлов
 app.use(express.static("public"));
