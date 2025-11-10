@@ -15,6 +15,22 @@ block content
                         class="form-control"
                     )
                 div(class="form-group mb-3")
+                    div(id="value-edit-description")
+                        // Выводим описание дисциплины, которое сформировано при помощи WYSIWYG-редактора.
+                        // Знак != обозначает не проверку на неравенство, а то, что выводим код HTML.
+                        // Если поставить знак равенства, то код HTML будет воспринят в качестве простой строки.
+                        div!=discipline.description
+                        input(id="button-edit-description" class="btn btn-sm-lg btn btn-primary mb-3" type="button" value="Редактировать описание")
+                    // по умолчанию скрываем редактор, его будем отображать при нажатии на кнопку "Редактировать описание"
+                    div(id="form-edit-description" class="div-none")
+                        textarea#editor(name="description")!=discipline.description
+                        script(type='text/javascript').
+                            CKEDITOR.replace('editor', {
+                                    filebrowserUploadUrl: '/uploader',
+                                    filebrowserUploadMethod: 'form'
+                                }
+                            );
+                div(class="form-group mb-3")
                     input(type="submit" value="Обновить" class="btn btn-primary") 
         div(class="col-md-5")
             form(action="/deleteDiscipline/" + discipline.id, method="POST")

@@ -1,6 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var db = require("./database.js");
+var uuid = require('uuid');
+var fs = require('fs');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 // Экспортируем маршрутизатор
 module.exports = router;
@@ -41,10 +45,10 @@ router.route("/addDiscipline")
         });
     })
     .post((req, res) => {
-        const { name } = req.body;
+        const { name, description } = req.body;
         db.run(
-            `INSERT INTO discipline(name) VALUES (?)`,
-            [name],
+            `INSERT INTO discipline(name, description) VALUES (?, ?)`,
+            [name, description],
             (err) => {
                 if (err) {
                     console.error("Ошибка при добавлении дисциплины:", err.message);
@@ -58,17 +62,17 @@ router.route("/addDiscipline")
 
 router.post("/updateDiscipline/:id", (req, res) => {
     const discipline_id = req.params.id;
-    const { name } = req.body;
+    const { name, description } = req.body;
     db.run(
-        `UPDATE discipline SET name=? WHERE id=?`,
-        [name, discipline_id],
+        `UPDATE discipline SET name=?, description=? WHERE id=?`,
+        [name, description, discipline_id],
         (err) => {
             if (err) {
                 console.error("Ошибка при обновлении дисциплины:", err.message);
                 res.status(500).send("Ошибка базы данных");
                 return;
             }
-            res.redirect("/listDisciplines");
+            res.redirect("/discipline/" + req.params.id);
         }
     );
 });
@@ -82,5 +86,28 @@ router.post("/deleteDiscipline/:id", (req, res) => {
             return;
         }
         res.redirect("/listDisciplines");
+    });
+});
+
+router.post('/uploader', multipartMiddleware, (req, res) => {
+    var expansion = req.files.upload.type; // тип файла указывается так: image/png
+    expansion = expansion.split('/')[1]; // из "image/png" нам нужно извлечь только png, чтобы добавить к имени файла его расширение
+    fs.readFile(req.files.upload.path, (err, data) => {
+        var newName = uuid.v4() + "." + expansion; // вызываем функцию v4() для того, чтобы уникальный идентификатор был сгенерирован случайным образом
+        var newPath = __dirname + '/../public/uploads/' + newName;
+        fs.writeFile(newPath, data, (err) => {
+            if (err) {
+                throw err;
+            }
+            else {
+                html = "<script type='text/javascript'>" +
+                        "var funcNum = " + req.query.CKEditorFuncNum + ";" +
+                        "var url     = \"/uploads/" + newName + "\";" +
+                        "var message = \"Файл успешно загружен\";" +
+                        "window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);" +
+                        "</script>";
+                res.send(html);
+            }
+        });
     });
 });
